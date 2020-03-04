@@ -1,15 +1,21 @@
 const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
-app.get("/api/signup", (req, res) => {
-  res.json({
-    data: "you hit signup endpoint"
-  });
-});
-
 // routing
-// middleware
+// import routes
+const authRoutes = require("./routes/auth");
+
+// app middlewares
+app.use(morgan("dev"));
+app.use(cors()); // allows all origins
+
+// middleware : use method
+app.use("/api", authRoutes);
 
 const port = process.env.port || 8000;
 app.listen(port, () => {
